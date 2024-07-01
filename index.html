@@ -6,133 +6,75 @@
     <link rel="icon" type="image/png" href="/recursos/icon.png" />
     <title>Componentes</title>
 
-    <script data-tmpDeleteOnload>
-      /**
-       * Dependencias CSS
-      */
-      Object.values({
-        Animate: {
-          online:
-            "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
-          offline: "/dependencias/animate.min.css",
-        },
-      }).forEach((dependencia) => {
-        document.write(
-          `<link rel="stylesheet" href="${
-            navigator.onLine ? dependencia.online : dependencia.offline
-          }" />`
-        );
-      });
-    </script>
+    <script>
+      (() => {
+        let prefixLoad = "https://cdn.jsdelivr.net/gh/Jeff-Aporta/react-cdn-design-system@main/";
 
-    <!-- Dependencias de React -->
-    <script data-tmpDeleteOnload>
-      Object.values({
-        ReactProduction: {
-          online: "https://unpkg.com/react@latest/umd/react.production.min.js",
-          offline: "/dependencias/react.production.min.js",
-        },
-        ReactDOMProduction: {
-          online:
-            "https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js",
-          offline: "/dependencias/react-dom.production.min.js",
-        },
-        Babel: {
-          online: "https://unpkg.com/@babel/standalone/babel.min.js",
-          offline: "/dependencias/babel.min.js",
-        },
-        MaterialUI: {
-          online:
-            "https://unpkg.com/@mui/material@latest/umd/material-ui.production.min.js",
-          offline: "/dependencias/material-ui.production.min.js",
-        },
-      }).forEach((dependencia) => {
-        document.write(
-          `<script src="${
-            navigator.onLine ? dependencia.online : dependencia.offline
-          }"><\/script>`
-        );
-      });
-    </script>
-
-    <!-- Dependencias Locales -->
-
-    <!-- Archivo raíz JS de la aplicación -->
-    <script src="/index.js"></script>
-
-    <!-- Archivo raíz JSX de la aplicación -->
-    <script type="text/babel" src="/main.jsx"></script>
-
-    <script data-tmpDeleteOnload>
-      /**
-       * Componentes cortos
-       */
-      ["selectpicker.jsx", "switchTheme.jsx", "tiempo.jsx"].forEach(
-        (archivo) => {
-          document.write(
-            `<script type="text/babel" src="/componente/${archivo}"><\/script>`
-          );
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1"){
+          prefixLoad = "";
         }
-      );
-    </script>
 
-    <script data-tmpDeleteOnload>
-      /**
-       * Dependencias de la ventana flotante tipo Windows
-       */
-      [
-        "1-main.jsx",
-        "2-modelos.jsx",
-        "2-globales.jsx",
-        "2-css-root-control.jsx",
-        "componente/3-crear.jsx",
-        "componente/3-marco.jsx",
-        "componente/3-control.jsx",
-      ].forEach((archivo) => {
-        document.write(
-          `<script type="text/babel" src="/componente/ventanas/flotante-tipo-windows/${archivo}"><\/script>`
-        );
-      });
-    </script>
+        writeDocument();
 
-    <script data-tmpDeleteOnload>
-      /**
-       * Reproductores
-       */
-      [
-        "theme1.jsx",
-      ].forEach((archivo) => {
-        document.write(
-          `<script type="text/babel" src="/componente/reproductor/video/${archivo}"><\/script>`
-        );
-      });
-    </script>
+        function writeDocument() {
+          Object.values({
+            Animate: `${prefixLoad}/dependencias/animate.min.css`,
+          }).forEach((dependencia) => {
+            document.write(
+              `<link rel="stylesheet" href="${dependencia}" />`
+            );
+          });
 
-    <script data-tmpDeleteOnload>
-      /**
-       * Reproductores
-       */
-      [
-        "theme1.jsx",
-      ].forEach((archivo) => {
-        document.write(
-          `<script type="text/babel" src="/componente/reproductor/video/${archivo}"><\/script>`
-        );
-      });
-    </script>
+          Object.values({
+            ReactProduction: "https://unpkg.com/react@latest/umd/react.production.min.js",
+            ReactDOMProduction: "https://unpkg.com/react-dom@latest/umd/react-dom.production.min.js",
+            Babel: "https://unpkg.com/@babel/standalone/babel.min.js",
+            MaterialUI: "https://unpkg.com/@mui/material@latest/umd/material-ui.production.min.js",
+          }).forEach((dependencia) => {
+            document.write(
+              `<script src="${dependencia}"><\/script>`
+            );
+          });
 
-    <!-- <script data-tmpDeleteOnload>
-      /**
-       * Reproductores
-       */
-      [
-        "chat.jsx",
-      ].forEach((archivo) => {
-        document.write(
-          `<script type="text/babel" src="/componente/IA/GPT/${archivo}"><\/script>`
-        );
-      });
-    </script> -->
+          document.write(`<script src="${prefixLoad}/index.js"><\/script>`);
+
+          document.write(
+            `<script type="text/babel" src="${prefixLoad}/main.jsx"><\/script>`
+          );
+
+          ["selectpicker.jsx", "switchTheme.jsx", "tiempo.jsx"].forEach(
+            (archivo) => {
+              document.write(
+                `<script type="text/babel" src="${prefixLoad}/componente/${archivo}"><\/script>`
+              );
+            }
+          );
+
+          [
+            "1-main.jsx",
+            "2-modelos.jsx",
+            "2-globales.jsx",
+            "2-css-root-control.jsx",
+            "componente/3-crear.jsx",
+            "componente/3-marco.jsx",
+            "componente/3-control.jsx",
+          ].forEach((archivo) => {
+            document.write(
+              `<script type="text/babel" src="${prefixLoad}/componente/ventanas/flotante-tipo-windows/${archivo}"><\/script>`
+            );
+          });
+
+          /**
+           * Reproductores
+           */
+          ["theme1.jsx"].forEach((archivo) => {
+            document.write(
+              `<script type="text/babel" src="${prefixLoad}/componente/reproductor/video/${archivo}"><\/script>`
+            );
+          });
+        }
+      })();
+    </script>
 
     <!-- Dependencias de aplicación -->
     <script defer type="text/babel" src="/index-app.jsx"></script>
