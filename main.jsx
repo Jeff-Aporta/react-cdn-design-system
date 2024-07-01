@@ -1,4 +1,4 @@
-addLink("/componente/abreviaturas.css");
+addLink(`${prefixLoad}/componente/abreviaturas.css`);
 
 Object.assign(window, window['MaterialUI'])
 
