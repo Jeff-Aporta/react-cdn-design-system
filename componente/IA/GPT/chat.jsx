@@ -1,5 +1,5 @@
 addScript({
-    src: "/componente/IA/GPT/chat.js",
+    src: `${prefixLoad}/componente/IA/GPT/chat.js`,
     type: "module",
 })
 

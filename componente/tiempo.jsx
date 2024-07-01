@@ -1,4 +1,4 @@
-addLink("/componente/tiempo.css")
+addLink(`${prefixLoad}/componente/tiempo.css`)
 
 function ComponenteTiempo({ horaPorDefecto, etiqueta, className, onChange }) {
   let modo = "hora";

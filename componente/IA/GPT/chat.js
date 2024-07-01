@@ -4,12 +4,12 @@ import { CreateWebWorkerMLCEngine } from "https://cdn.jsdelivr.net/npm/@mlc-ai/w
 
 const SELECTED_MODEL = "TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC-1k";
 
-let engine
+let engine;
 
 (async () => {
   console.log("Chat.js running 1*");
   engine = await CreateWebWorkerMLCEngine(
-    new Worker("/componente/IA/GPT/worker.js", { type: "module" }),
+    new Worker(`${prefixLoad}/componente/IA/GPT/worker.js`, { type: "module" }),
     SELECTED_MODEL,
     {
       initProgressCallback: (info) => {

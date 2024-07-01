@@ -1,4 +1,4 @@
-addLink("/componente/selectpicker.css")
+addLink(`${prefixLoad}/componente/selectpicker.css`)
 
 let itemsPrueba = [
   { valor: "1", nombre: "Item de prueba 1" },
