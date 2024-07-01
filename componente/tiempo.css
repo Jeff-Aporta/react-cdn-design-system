@@ -1,0 +1,143 @@
+.componente-tiempo {
+  &.hora-matriz {
+    .etiqueta {
+      color: dodgerblue;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 0;
+      left: 0;
+      transform: translateY(-50%);
+    }
+
+    & .muestra {
+      padding: 10px;
+      border-bottom: 1px solid lightgray;
+      text-align: center;
+      width: 150px;
+      font-size: 15px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+
+        &:active {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+
+    &:has(input:checked) {
+      .panel-flotante {
+        display: flex;
+      }
+
+      & .muestra {
+        border-bottom: 1px solid dodgerblue;
+      }
+
+      .etiqueta {
+        color: dodgerblue;
+      }
+    }
+
+    .panel-flotante {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 220px;
+      padding: 10px;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+
+      .cerrar {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 20px;
+        padding: 5px;
+      }
+
+      .titulo {
+        text-transform: uppercase;
+        font-weight: bold;
+        padding: 10px;
+      }
+
+      .relleno-modo {
+        display: inline-block;
+        cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        padding: 10px;
+        width: calc(100% / 6);
+
+        &:hover {
+          background-color: #eee;
+        }
+      }
+    }
+  }
+}
+
+.componente-tiempo {
+  &.hora-radial {
+    user-select: none;
+
+    .manecilla-guia,
+    .marcador {
+      transition: all 0.2s ease-in-out;
+    }
+
+    .seleccionador {
+      font-size: 14px;
+
+      .hora,
+      .minutos,
+      .segundos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & input {
+          width: 40px;
+          text-align: center;
+
+          &:active,
+          &:focus,
+          &.editando {
+            outline: none;
+            background-color: lightblue;
+          }
+        }
+      }
+
+      .ampm {
+        & label {
+          cursor: pointer;
+          border: 1px solid #ccc;
+          padding: 5px;
+        }
+
+        .am {
+          display: inline-block;
+        }
+
+        .pm {
+          display: none;
+        }
+
+        &:has(input:checked) {
+          .am {
+            display: none;
+          }
+
+          .pm {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}

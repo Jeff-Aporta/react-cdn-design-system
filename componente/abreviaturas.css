@@ -1,0 +1,221 @@
+.w-100P {
+    width: 100%;
+}
+
+.rminw {
+    min-width: unset !important;
+}
+
+.minw-100px {
+    min-width: 100px;
+}
+
+.minw-400px {
+    min-width: 400px;
+}
+
+.ta-rigth {
+    text-align: right;
+}
+
+.ta-left {
+    text-align: left;
+}
+
+.ta-center {
+    text-align: center;
+}
+
+.tt-uppercase {
+    text-transform: uppercase !important;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.v-hidden {
+    visibility: hidden !important;
+}
+
+.d-inline-block {
+    display: inline-block !important;
+}
+
+.v-hidden {
+    visibility: hidden !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.user-select-none {
+    user-select: none;
+}
+
+.fs-smaller {
+    font-size: smaller;
+}
+
+.fs-80P {
+    font-size: 80%;
+}
+
+.fs-14px {
+    font-size: 14px;
+}
+
+.fs-16px {
+    font-size: 16px;
+}
+
+.fs-18px {
+    font-size: 18px;
+}
+
+.m-0 {
+    margin: 0px !important;
+}
+
+.mr-10px {
+    margin-right: 10px;
+}
+
+.ml--25px {
+    margin-left: -25px !important;
+}
+
+.ml-5px {
+    margin-left: 5px;
+}
+
+.ml-20px {
+    margin-left: 20px;
+}
+
+.ml-40px {
+    margin-left: 40px;
+}
+
+.mh-10px {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.mv-10px {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.pad-5px {
+    padding: 5px !important;
+}
+
+.padb-10px {
+    padding-bottom: 10px;
+}
+
+.pad-10px {
+    padding: 10px !important;
+}
+
+.pad-15px {
+    padding: 15px;
+}
+
+.pad-20px {
+    padding: 20px;
+}
+
+.pad-40px {
+    padding: 40px;
+}
+
+.bg-dodgerblue {
+    background-color: dodgerblue;
+}
+
+.c-tomato {
+    color: tomato;
+}
+
+.c-steelblue {
+    color: steelblue;
+}
+
+.c-skyblue {
+    color: skyblue;
+}
+
+.c-dodgerblue {
+    color: dodgerblue;
+}
+
+.c-white {
+    color: white;
+}
+
+.c-transparent {
+    color: transparent;
+}
+
+.fa-stack-05x {
+    font-size: 0.5em;
+}
+
+.br-15 {
+    border-radius: 15px !important;
+}
+
+.bb-1px-solid-ligthgray {
+    border-bottom: 1px solid lightgray;
+}
+
+.op-50P {
+    opacity: 0.5;
+}
+
+.flat-lbl {
+    font-weight: normal;
+}
+
+.va-top {
+    vertical-align: top;
+}
+
+.white-space-nowarp {
+    white-space: nowrap;
+}
+
+.scale-80P {
+    scale: 0.8;
+}
+
+.transform-origin-0-0 {
+    transform-origin: 0 0;
+}
+
+input[type="checkbox"] {
+    &:not(:checked) {
+        &~.true {
+            visibility: hidden;
+            display: none;
+        }
+
+        &~.false {
+            visibility: visible;
+        }
+    }
+
+    &:checked {
+        &~.true {
+            visibility: visible;
+        }
+
+        &~.false {
+            visibility: hidden;
+            display: none;
+        }
+    }
+}
