@@ -17,7 +17,7 @@ crearEstilo({
             ".menu-contextual": {
                 animation: "salida 0.5s forwards",
             },
-            "&:has(.menu-contextual-input:checked)": {
+            "&:has(:where(.menu-contextual-input:checked, .elemento-añadido:hover)), &:hover": {
                 ">.menu-contextual": {
                     animation: "entrada 0.5s forwards",
                 }
@@ -48,7 +48,7 @@ crearEstilo({
                     ".contenedor-slider": {
                         display: "none",
                     },
-                    "&:has(input[type='checkbox']:checked)": {
+                    "&:has(input[type='radio']:checked)": {
                         ".contenedor-slider": {
                             display: "flex",
                         }
@@ -126,6 +126,7 @@ function Reproductor_theme1({
 }) {
 
     const idR = Math.random().toString().replace("0.", "idR-");
+    const LIMITE_FILTROS = 5;
 
     let btnStyle = {
         margin: "0",
@@ -139,6 +140,7 @@ function Reproductor_theme1({
         fontSize: "10px",
         color: themeSelected == darkTheme ? "white" : "black",
         width: "100%",
+        textTransform: "none",
     }
 
     let retornoSVG;
@@ -168,29 +170,35 @@ function Reproductor_theme1({
             }}
 
             style={{
-                userSelect: "none",
                 width: width + "px",
                 height: height + "px",
             }}
         >
-            <video
-                className="video"
-                width="100%"
-                height="100%"
-                onTimeUpdate={() => {
-                    let video = document.querySelector(`.${idR} .video`);
-                    if (video.paused) {
-                        return;
-                    }
-                    let t = (video.currentTime / video.duration);
-                    retornoSVG.moverPorcentaje(t, false);
-                }}
+            <div
+                className="contenedor-video"
                 style={{
-                    objectFit: "cover",
+                    overflow: "hidden"
                 }}
             >
-                <source src={src} type="video/mp4" />
-            </video>
+                <video
+                    className="video"
+                    width="100%"
+                    height="100%"
+                    onTimeUpdate={() => {
+                        let video = document.querySelector(`.${idR} .video`);
+                        if (video.paused) {
+                            return;
+                        }
+                        let t = (video.currentTime / video.duration);
+                        retornoSVG.moverPorcentaje(t, false);
+                    }}
+                    style={{
+                        objectFit: "cover",
+                    }}
+                >
+                    <source src={src} type="video/mp4" />
+                </video>
+            </div>
             <div className="video-controls">
                 <BarraDeReproducción />
                 <div
@@ -237,7 +245,6 @@ function Reproductor_theme1({
 
     function Configuración() {
 
-        let filtros = [];
 
         return botonConMenuContextualHover1({
             className: "configuracion",
@@ -293,7 +300,9 @@ function Reproductor_theme1({
                         style: {
                             padding: "20px",
                             minHeight: "200px",
+                            minWidth: "220px",
                             justifyContent: "space-between",
+                            padding: "10px",
                         },
                         orientacion: "vertical",
                         right: "100%",
@@ -328,11 +337,13 @@ function Reproductor_theme1({
                                                     minWidth: "1px",
                                                 }}
                                                 onClick={() => {
-                                                    let contenidoFiltros = document.querySelector(`.${idR} .filtros .menu-contextual .contenido`);
+                                                    let contenidoFiltros = document.querySelector(
+                                                        `.${idR} .filtros .menu-contextual .contenido`
+                                                    );
                                                     let div = document.createElement("div");
-                                                    ReactDOM.createRoot(div).render(nuevoFiltro({
+                                                    ReactDOM.render(nuevoFiltro({
                                                         tipo: e,
-                                                    }));
+                                                    }), div);
                                                     contenidoFiltros.append(div);
                                                     let selector = document.querySelector(`.${idR} .selector-filtro`);
                                                     selector.style.display = "none";
@@ -344,6 +355,7 @@ function Reproductor_theme1({
                                     }
                                     <hr />
                                     <Button
+                                        size="small"
                                         variant="contained"
                                         style={{
                                             ...btnStyle_menuContextual,
@@ -359,11 +371,6 @@ function Reproductor_theme1({
                                     </Button>
                                 </Paper>
                             },
-                            {
-                                ReactDOM: nuevoFiltro({
-                                    tipo: "invert",
-                                }),
-                            },
                         ],
                         contenidoFooter: [
                             {
@@ -372,6 +379,7 @@ function Reproductor_theme1({
                             {
                                 icono: <i class="fa-solid fa-circle-plus"></i>,
                                 variant: "contained",
+                                className: "agregar-filtro",
                                 onClick: () => {
                                     let selector = document.querySelector(`.${idR} .selector-filtro`);
                                     selector.style.display = "flex";
@@ -401,6 +409,12 @@ function Reproductor_theme1({
         });
     }
 
+    function cerrarTodosLosActivadoresDeSlider() {
+        [...document.querySelectorAll(`.${idR} .filtro .activador-slider`)].forEach((e) => {
+            e.checked = false;
+        });
+    }
+
     function nuevoFiltro({
         tipo,
         filtros,
@@ -415,11 +429,18 @@ function Reproductor_theme1({
             });
         }
         let idF = Math.random().toString().replace("0.", "idF-");
+
+        setTimeout(() => {
+            calcularFiltrosVideo();
+            cerrarTodosLosActivadoresDeSlider();
+        }, 0);
+
         return <div
             className={`
                 filtro
                 ${idF}
                 ${tipo}
+                elemento-añadido
             `}
         >
             <div
@@ -437,7 +458,7 @@ function Reproductor_theme1({
                     }}
                     startIcon={<i class="fa-solid fa-palette"></i>}
                     onClick={() => {
-                        let input = document.querySelector(`.${idR} .filtro.${idF} input[type='checkbox']`);
+                        let input = document.querySelector(`.${idR} .filtro.${idF} .activador-slider`);
                         input.checked = !input.checked;
                     }}
                 >
@@ -460,6 +481,7 @@ function Reproductor_theme1({
                     onClick={() => {
                         let filtro = document.querySelector(`.${idR} .filtro.${idF}`);
                         filtro.remove();
+                        calcularFiltrosVideo();
                     }}
                     Title="Eliminar Filtro"
                 >
@@ -476,7 +498,7 @@ function Reproductor_theme1({
                     }}
                     onMouseDown={(e) => {
                         let contenedor = document.querySelector(`.${idR} .filtros`);
-                        let filtro = document.querySelector(`.${idR} .filtro.${idF}`);
+                        let filtro = document.querySelector(`.${idR} .filtro.${idF}`).parentElement;
                         let movedorY = document.querySelector(`.${idR} .filtro.${idF} .movedorY`);
 
                         document.body.style.userSelect = "none";
@@ -488,16 +510,21 @@ function Reproductor_theme1({
                             let top = contenedor.getBoundingClientRect().bottom - filtro.getBoundingClientRect().top;
                             let bottom = contenedor.getBoundingClientRect().bottom - filtro.getBoundingClientRect().bottom;
 
+                            document.body.style.cursor = "grabbing";
                             movedorY.style.cursor = "grabbing";
 
                             let elementoAnterior = filtro.previousElementSibling;
                             let elementoSiguiente = filtro.nextElementSibling;
 
+                            console.log({ y, top, bottom, elementoAnterior, elementoSiguiente });
+
                             if (elementoAnterior && y > top) {
                                 elementoAnterior.before(filtro);
+                                calcularFiltrosVideo();
                             }
                             if (elementoSiguiente && y < bottom) {
                                 elementoSiguiente.after(filtro);
+                                calcularFiltrosVideo();
                             }
                         }
 
@@ -514,7 +541,9 @@ function Reproductor_theme1({
             </div>
 
             <input
-                type="checkbox"
+                className="activador-slider"
+                type="radio"
+                name="filtro"
                 defaultChecked={false}
                 style={{
                     display: "none",
@@ -523,31 +552,154 @@ function Reproductor_theme1({
             <div
                 className="contenedor-slider"
                 style={{
-                    justifyContent: "center",
+                    justifyContent: "space-evenly",
                     alignItems: "center",
                 }}
             >
+                &nbsp;
                 <PrettoSlider
                     className="slider"
                     valueLabelDisplay="auto"
                     aria-label="pretto slider"
-                    defaultValue={0}
+                    marks={(() => {
+                        switch (tipo) {
+                            case "blur":
+                                return [
+                                    { value: 0, label: "0px" },
+                                    { value: 5, label: "5px" },
+                                    { value: 10, label: "10px" },
+                                ];
+                            case "hue-rotate":
+                                return [
+                                    { value: 0, label: "0°" },
+                                    { value: 180, label: "180°" },
+                                    { value: 360, label: "360°" },
+                                ];
+                            case "contrast":
+                                return [
+                                    { value: 0, label: "0%" },
+                                    { value: 100, label: "100%" },
+                                    { value: 200, label: "200%" },
+                                ];
+                            case "brightness":
+                                return [
+                                    { value: 0, label: "0" },
+                                    { value: 1, label: "1" },
+                                    { value: 2, label: "2" },
+                                ];
+                            default:
+                                return [
+                                    { value: 0, label: "0%" },
+                                    { value: 50, label: "50%" },
+                                    { value: 100, label: "100%" },
+                                ];
+                        }
+                    })()}
+                    min={0}
+                    max={(() => {
+                        switch (tipo) {
+                            case "blur":
+                                return 10;
+                            case "hue-rotate":
+                                return 360;
+                            case "contrast":
+                                return 200;
+                            case "brightness":
+                                return 2;
+                        }
+                        return 100;
+                    })()}
+                    step={(() => {
+                        switch (tipo) {
+                            case "blur":
+                                return 0.1;
+                            case "hue-rotate":
+                            case "contrast":
+                            default:
+                                return 1;
+                            case "brightness":
+                                return 0.01;
+                        }
+                    })()}
+                    defaultValue={(() => {
+                        switch (tipo) {
+                            case "blur":
+                                return 0;
+                            case "hue-rotate":
+                                return 0;
+                            case "contrast":
+                                return 100;
+                            case "brightness":
+                                return 1;
+                        }
+                        return 0;
+                    })()}
                     style={{
-                        width: "80%",
+                        width: "60%",
                     }}
                     onChange={(e, v) => {
                         calcularFiltrosVideo();
-                        document.querySelector(`.${idR} .filtro.invertir .valorTXT`).innerHTML = `(${v}%)`;
                     }}
                 />
+                <SeparadorVertical />
+                <Button
+                    style={{
+                        ...btnStyle,
+                        color: "green",
+                        minWidth: "1px",
+                    }}
+                    Title="Listo"
+                    onClick={() => {
+                        let input = document.querySelector(`.${idR} .filtro.${idF} .activador-slider`);
+                        input.checked = false;
+                    }}
+                >
+                    <div>
+                        <i class="fa-solid fa-check"></i>
+                        <br />
+                        <span
+                            style={{
+                                fontSize: "10px",
+                            }}
+                        >
+                            Listo
+                        </span>
+                    </div>
+                </Button>
             </div>
         </div>
     }
 
     function calcularFiltrosVideo() {
-        video.style.filter = `
-            invert(0%)
-        `;
+        let cantidadDeFiltros = document.querySelectorAll(`.${idR} .filtro`).length;
+        let botonAgregarFiltro = document.querySelector(`.${idR} .agregar-filtro`);
+        if (cantidadDeFiltros >= LIMITE_FILTROS) {
+            botonAgregarFiltro.style.display = "none";
+        } else {
+            botonAgregarFiltro.style.display = "flex";
+        }
+        let filtros = document.querySelectorAll(`.${idR} .filtro`);
+        let video = document.querySelector(`.${idR} .video`);
+        let filtrosAplicados = [];
+        filtros.forEach((filtro) => {
+            let tipo = Object.keys(TraducciónFiltrosVideo).find((e) => filtro.classList.contains(e));
+            let valor = filtro.querySelector(".slider input").value;
+            let U = "%";
+            switch (tipo) {
+                case "blur":
+                    U = "px";
+                    break;
+                case "hue-rotate":
+                    U = "deg";
+                    break;
+                case "brightness":
+                    U = "";
+                    break;
+            }
+            filtrosAplicados.push(`${tipo}(${valor}${U})`);
+            filtro.querySelector(".valorTXT").innerHTML = `(${valor}${U})`;
+        });
+        video.style.filter = filtrosAplicados.join(" ");
     }
 
     function PictureInPicture() {
@@ -609,9 +761,9 @@ function Reproductor_theme1({
             <IconButton
                 size="small"
                 className={`
-                                mute
-                                btnZoom
-                            `}
+                    mute
+                    btnZoom
+                `}
                 onClick={() => {
                     let video = document.querySelector(`.${idR} .video`);
                     let muteButton = document.querySelector(`.${idR} .mute`);
@@ -715,6 +867,7 @@ function Reproductor_theme1({
         orientacion,
         right,
         left,
+        centrarX,
         bottom,
         textAlign,
         contenido,
@@ -766,12 +919,19 @@ function Reproductor_theme1({
                     }
                 })()}
             </Button>
-            <input type="checkbox" className="menu-contextual-input" style={{ display: "none" }} />
+            <input /**
+                 * Este input regula la visibilidad del menú contextual, si está checked, se muestra, si no, se oculta.
+                 * 
+                 * Lo activamos con onMouseEnter y lo desactivamos con onMouseLeave del contenedor.
+                 */
+                type="radio"
+                name={className}
+                className="menu-contextual-input" style={{ display: "none" }}
+            />
             <Paper
                 elevation={6}
                 className="menu-contextual"
                 style={{
-                    ...style,
                     display: "flex",
                     flexDirection: "column",
                     position: "absolute",
@@ -788,8 +948,13 @@ function Reproductor_theme1({
                         if (bottom) {
                             retorno.bottom = bottom;
                         }
+                        if (centrarX) {
+                            retorno.transform = "translateX(-50%)";
+                            retorno.left = "50%";
+                        }
                         return retorno;
-                    })()
+                    })(),
+                    ...style,
                 }}
             >
                 {(() => {
@@ -869,7 +1034,7 @@ function Reproductor_theme1({
             className: "velocidad-de-reproduccion",
             orientacion: "horizontal",
             textAlign: "center",
-            right: 0,
+            centrarX: true,
             contenido: Array.from({ length: 4 }, (_, i) => (i + 1) * 0.5).map((e) => {
                 let className = `estado-${e.toString().replace(".", "-")}x`;
                 return {

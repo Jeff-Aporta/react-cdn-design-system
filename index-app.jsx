@@ -1,5 +1,5 @@
-
 function App() {
+
     return (
         <React.Fragment>
             <Paper elevation={6} style={{
@@ -34,9 +34,6 @@ function App() {
                 <br />
                 <h1>Reproductor</h1>
                 <Reproductor_theme1 />
-                {/* <br />
-                <h1>Chat</h1>
-                <ChatGPT /> */}
             </div>
         </React.Fragment>
     );
