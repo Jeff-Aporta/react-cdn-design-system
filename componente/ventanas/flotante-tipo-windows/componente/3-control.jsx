@@ -1,7 +1,7 @@
 VENTANA_FLOTANTE_TIPO_WINDOWS.CONTROL = ({
     ventana,
-    ancho_porcentaje_mediano = 0.4, //Ancho de la ventana en porcentaje de la ventana principal
-    alto_porcentaje_mediano = 0.4, //Alto de la ventana en porcentaje de la ventana principal
+    ancho_porcentaje_mediano = 0.6, //Ancho de la ventana en porcentaje de la ventana principal
+    alto_porcentaje_mediano = 0.6, //Alto de la ventana en porcentaje de la ventana principal
     ancho_minimo = 300, //Ancho mínimo en pixeles de la ventana
     alto_minimo = 200, //Alto mínimo en pixeles de la ventana
     respetarLimitesVentana = true, /**
