@@ -1,5 +1,3 @@
-addLink(`${prefixLoad}/componente/selectpicker.css`)
-
 let itemsPrueba = [
   { valor: "1", nombre: "Item de prueba 1" },
   { valor: "2", nombre: "Item de prueba 2" },

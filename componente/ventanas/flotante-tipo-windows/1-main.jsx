@@ -1,5 +1,3 @@
-addLink(`${prefixLoad}/componente/ventanas/flotante-tipo-windows/index.css`);
-
 //Objeto que agrupa todas las funciones y variables globales de las ventanas flotantes tipo Windows
 const VENTANA_FLOTANTE_TIPO_WINDOWS = {};
 

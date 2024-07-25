@@ -1,5 +1,3 @@
-addLink(`${prefixLoad}/componente/tiempo.css`)
-
 function ComponenteTiempo({ horaPorDefecto, etiqueta, className, onChange }) {
   let modo = "hora";
   let [hora, minutos, segundos] = horaPorDefecto.split(":").map((e) => parseInt(e) || 0);

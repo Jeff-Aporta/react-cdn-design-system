@@ -1,5 +1,3 @@
-addLink(`${prefixLoad}/componente/abreviaturas.css`);
-
 Object.assign(window, window['MaterialUI'])
 
 let localThemeName = localStorage.getItem('theme') || 'dark';
